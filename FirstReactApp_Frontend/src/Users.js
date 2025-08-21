@@ -1,41 +1,33 @@
 import { Box } from "@mui/material";
 import UserForm from "./UserForm";
 import UsersTable from "./UsersTable";
-
-const users = [
-   {
-      id: 1,
-      name: 'John Doe',
-   },
-   {
-      id: 2,
-      name: 'Jane Smith',
-   },
-   {
-      id: 3,
-      name: 'Alice Johnson',
-   },
-   {
-      id: 4,
-      name: 'Bob Brown',
-   },
-   {
-      id: 5,
-      name: 'Charlie White',
-   }
-
-];
-
-
+import Axios from "axios";
+import React, { useState, useEffect } from "react";
 
 const Users = () => {
-     return (
+   const [users, setUsers] = useState([]);
+
+   useEffect(() => {
+      getUsers();
+   }, []);
+
+   const getUsers = async () => {
+      Axios.get("http://localhost:3001/api/users")
+         .then((response) => {
+            setUsers(response.data?.response || []);
+         })
+         .catch((error) => {
+            console.error("There was an error fetching the users!", error);
+         });
+   }
+
+   return (
       <Box 
          sx ={{width: 'calc(100% - 100px)', margin: 'auto',marginTop: '100px',}}>
          <UserForm />
-         <UsersTable rows ={users} />
+         <UsersTable rows={users} />
       </Box>
-     );
-   }
+   );
+}
 
 export default Users;
