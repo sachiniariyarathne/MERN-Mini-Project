@@ -1,9 +1,10 @@
 import {Button, Grid, Input, Typography} from '@mui/material';
 import {useState} from "react";
 
-const UserForm = props => {
+const UserForm = ({addUser, submitted})=> {
     const [id, setId] = useState('');
     const [name, setName] = useState('');
+    
     return (
         <Grid
         container
@@ -71,7 +72,9 @@ const UserForm = props => {
                     color: '#ffffff',
                     marginLeft: '15px',
                     marginTop: '20px',
-                    '&:hover': { opacity: 0.7, backgroundColor: '#00c6e6' }}}>
+                    '&:hover': { opacity: 0.7, backgroundColor: '#00c6e6' }}}
+                    onClick={() => addUser({ id: id, name: name })}
+                    >
                     Submit
                 </Button>
 
