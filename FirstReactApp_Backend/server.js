@@ -27,3 +27,11 @@ const server = app.listen(3001, '127.0.0.1', () => {
 });
 
 app.use('/api', router);
+
+server.listen(port, () => {
+    if (server.address()) {
+        console.log(`Server is running on ${server.address().port}`);
+    } else {
+        console.log('Server failed to start.');
+    }
+});
