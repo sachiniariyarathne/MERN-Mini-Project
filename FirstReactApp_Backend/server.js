@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const port  = 3001;
-const host = '127.0.0.1';
 const mongoose = require('mongoose');
 const router = require('./router');
 
@@ -22,16 +20,10 @@ const connectDB = async () => {
 
 connectDB();
 
-const server = app.listen(3001, '127.0.0.1', () => {
-    console.log(`Server is running on ${server.address().port}`)
+const PORT = process.env.PORT || 3001;
+
+const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
 app.use('/api', router);
-
-server.listen(port, () => {
-    if (server.address()) {
-        console.log(`Server is running on ${server.address().port}`);
-    } else {
-        console.log('Server failed to start.');
-    }
-});
