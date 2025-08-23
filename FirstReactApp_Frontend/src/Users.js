@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography, Paper, Divider } from "@mui/material";
 import UserForm from "./UserForm";
 import UsersTable from "./UsersTable";
 import Axios from "axios";
@@ -8,8 +8,7 @@ const Users = () => {
    const [users, setUsers] = useState([]);
    const [submitted, setSubmitted] = useState(false);
    const [selectedUser, setSelectedUser] = useState();
-   const [isEdit, setisEdit] = useState(false); 
-
+   const [isEdit, setisEdit] = useState(false);
 
    useEffect(() => {
       getUsers();
@@ -35,7 +34,7 @@ const Users = () => {
          .then((response) => {
             getUsers();
             setSubmitted(false);
-            isEdit(false);
+            setisEdit(false);
          })
          .catch((error) => {
             console.error("There was an error adding the user!", error);
@@ -52,8 +51,8 @@ const Users = () => {
          .then((response) => {
             getUsers();
             setSubmitted(false);
-            setisEdit(false);        // Reset edit mode
-            setSelectedUser(null);   // Clear selected user
+            setisEdit(false);
+            setSelectedUser(null);
          })
          .catch((error) => {
             console.error("There was an error updating the user!", error);
@@ -71,23 +70,44 @@ const Users = () => {
    }
 
    return (
-      <Box 
-         sx ={{width: 'calc(100% - 100px)', margin: 'auto',marginTop: '100px',}}>
-         <UserForm
-            addUser={addUser}
-            updateUser={updateUser}
-            submitted={submitted}
-            data= {selectedUser}  
-            isEdit={isEdit}
-         />
-         <UsersTable 
-            rows={users} 
-            selectedUser={data => {
-               setSelectedUser(data);
-               setisEdit(true);
+      <Box
+         sx={{
+            minHeight: "100vh",
+            background: "linear-gradient(135deg, #e3f2fd 0%, #fff 100%)",
+            py: 6,
+         }}
+      >
+         <Paper
+            elevation={4}
+            sx={{
+               maxWidth: 700,
+               margin: "auto",
+               p: 4,
+               borderRadius: 4,
+               boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
             }}
-            deleteUser={deleteUser} // <-- pass deleteUser to table
-         />
+         >
+            <Typography variant="h4" align="center" fontWeight={700} color="primary" gutterBottom>
+               User Management
+            </Typography>
+            <Divider sx={{ mb: 3 }} />
+            <UserForm
+               addUser={addUser}
+               updateUser={updateUser}
+               submitted={submitted}
+               data={selectedUser}
+               isEdit={isEdit}
+            />
+            <Divider sx={{ my: 3 }} />
+            <UsersTable
+               rows={users}
+               selectedUser={data => {
+                  setSelectedUser(data);
+                  setisEdit(true);
+               }}
+               deleteUser={deleteUser}
+            />
+         </Paper>
       </Box>
    );
 }
